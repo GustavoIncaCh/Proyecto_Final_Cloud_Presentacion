@@ -56,7 +56,8 @@ class ReportesState extends State<Reportes> {
       */
 
     //print(collectionStream);
-    print('kekw');
+
+    //print('kekw');
     FirebaseFirestore.instance
         .collection('puntosDePeligros')
         .get()
@@ -73,6 +74,25 @@ class ReportesState extends State<Reportes> {
                         icon: _icono_inseguro),
                   );
                   print(doc["id"]);
+                });
+              }),
+            });
+    FirebaseFirestore.instance
+        .collection('AlertasGeneradas')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                setState(() {
+                  _markers.add(
+                    Marker(
+                        markerId: MarkerId(doc.id),
+                        position: LatLng(
+                            doc["LatLng"].latitude, doc["LatLng"].longitude),
+                        infoWindow: InfoWindow(
+                            title: doc["zona"], snippet: doc["zona"]),
+                        icon: _icono_seguro),
+                  );
+                  print(doc["zona"]);
                 });
               }),
             });
